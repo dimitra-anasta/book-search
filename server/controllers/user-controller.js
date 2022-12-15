@@ -4,6 +4,7 @@ const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 module.exports = {
+  // me
   // get a single user by either their id or their username
   async getSingleUser({ user = null, params }, res) {
     const foundUser = await User.findOne({
@@ -16,6 +17,7 @@ module.exports = {
 
     res.json(foundUser);
   },
+  // add user mutatiom
   // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
   async createUser({ body }, res) {
     const user = await User.create(body);
@@ -42,6 +44,7 @@ module.exports = {
     const token = signToken(user);
     res.json({ token, user });
   },
+  
   // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
   async saveBook({ user, body }, res) {

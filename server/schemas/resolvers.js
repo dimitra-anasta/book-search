@@ -2,9 +2,18 @@ const {Book, User} = require('../models');
 
 const resolvers = {
     Query: {
-        bookId: async () => {
-            return SearchBooks.find({});
+        users: async () => {
+            return User.find({});
         },
-        
-    }
+        user: async (parent, {userId}) => {
+            return User.findOne({_id: userId})
+        },
+        me: async (parent, args, context) => {
+        if (context.user) { 
+            return findOne() 
+        }
+        }, 
+    },
+    Mutation:
+
 }
