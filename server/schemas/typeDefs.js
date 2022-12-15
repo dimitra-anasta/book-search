@@ -30,9 +30,9 @@ user: User
 }
 
 type Mutation {
-login:
-addUser:
-saveBook:
+login({email: String!, password: String}): Auth
+addUser({username: String!, email:String! passwaord:String!}): Auth
+saveBook({authors: [String], description: String!, title: String!, bookId: String!  })
 removeBook:
 }
 `;
