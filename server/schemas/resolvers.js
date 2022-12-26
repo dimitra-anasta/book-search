@@ -11,6 +11,7 @@ const resolvers = {
             return User.findOne({_id: userId})
         },
         me: async (parent, args, context) => {
+          console.log(context)
         if (context.user) { 
           const userData = await User.findOne({_id: context.user._id }) 
           return userData
@@ -23,12 +24,13 @@ const resolvers = {
       const login = await User.findOne({email});
       if (!login) {
         throw new AuthenticationError('No profile with this email found!')
-      } 
+      }
       const correctPassword = await login.isCorrectPassword(password);
       if(!correctPassword){
         throw new AuthenticationError('Incorrect password!')
       }
      const token = signToken(login)
+     console.log(login)
      return { token, login};
     },
     addUser: async (parent, { email, username, password  }) => {
@@ -40,7 +42,7 @@ const resolvers = {
         if (context.user) {
           const updatedUser = await User.findByIdAndUpdate(
             { _id: context.user._id },
-            { $addToSet: { savedBooks: args.input } },
+            { $push: { savedBooks: args.input } },
             { new: true }
           );
           return updatedUser;
