@@ -9,11 +9,11 @@ import { REMOVE_BOOK } from '../utils/mutations';
 
 
 const SavedBooks = () => {
-
-const { data } = useQuery(GET_ME);  
+const [ UserData, setUserData ] = useState({});
+const { loading, data } = useQuery(GET_ME);  
 const userData = data?.me || [];
-const userDataLength = Object.keys(userData).length;
-console.log(userData);
+const userDataLength = Object.keys(UserData).length;
+// console.log(userData);
 
   const [ deleteBook, { error }] = useMutation(REMOVE_BOOK);
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
@@ -35,7 +35,7 @@ console.log(userData);
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
@@ -48,12 +48,12 @@ console.log(userData);
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {userData?.savedBooks.length
+            ? `Viewing ${userData?.savedBooks.length} saved ${userData?.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData?.savedBooks.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
                 {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
