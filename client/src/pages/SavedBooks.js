@@ -15,7 +15,7 @@ const userData = data?.me || [];
 const userDataLength = Object.keys(UserData).length;
 // console.log(userData);
 
-  const [ deleteBook, { error }] = useMutation(REMOVE_BOOK);
+  const [ removeBook, { error }] = useMutation(REMOVE_BOOK);
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -25,9 +25,10 @@ const userDataLength = Object.keys(UserData).length;
     }
 
     try {
-      const { data } = await deleteBook({
+      const { data } = await removeBook({
         variables: {bookId},
       })
+      console.log(data);
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
